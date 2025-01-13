@@ -10,7 +10,7 @@ import AppleProductTypes
 let package = Package(
     name: "penML",
     platforms: [
-        .iOS("16.0")
+        .iOS("17.1")
     ],
     products: [
         .iOSApplication(

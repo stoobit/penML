@@ -1,14 +1,50 @@
 //
-//  ContentMethods.swift
+//  File.swift
 //  penML
 //
-//  Created by Till Brügmann on 11.06.24.
+//  Created by Till Brügmann on 13.01.25.
 //
 
-import SwiftUI
+import Foundation
 
-@available(iOS 17.0, *)
-extension ContentView {
+@Observable class GameModel {
+    var isRunning: Bool = true
+
+    var active: ActionType = .ai
+    var index: Int = 0
+
+    var playerScore: Int = 0
+    var aiScore: Int = 0
+
+    var iterations: Int = 0
+
+    var recentPen: Int = 0
+    var recentValue: Int = 0
+    
+    var turn: String {
+        return active == .ai ? "AI" : "Player"
+    }
+    
+    var activePens: [PenModel] {
+        return pens.filter { $0.inGame }
+    }
+
+    var pens: [PenModel] = [
+        PenModel(color: .red),
+        PenModel(color: .orange),
+        PenModel(color: .yellow),
+        PenModel(color: .green),
+        PenModel(color: .mint),
+        PenModel(color: .cyan),
+        PenModel(color: .blue),
+        PenModel(color: .purple),
+        PenModel(color: .pink),
+        PenModel(color: .brown),
+    ]
+    
+    var actions: [ActionModel] =
+        Array(repeating: ActionModel(), count: 10)
+    
     func ai() {
         guard let random = actions[index]
             .available.randomElement()

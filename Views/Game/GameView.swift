@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  GameView.swift
 //  penML
 //
 //  Created by Till Brügmann on 11.06.24.
@@ -7,12 +7,14 @@
 
 import SwiftUI
 
-@available(iOS 17.0, *)
-extension ContentView {
+
+struct GameView: View {
+    @State var game: GameModel = GameModel()
+    
     var body: some View {
         VStack {
             HStack {
-                Text("\(iterations)\(Text(" Iterations").font(.body))")
+                Text("\(game.iterations)\(Text(" Iterations").font(.body))")
                     .font(.largeTitle.bold())
                     .foregroundStyle(
                         Color.accentColor
@@ -22,8 +24,8 @@ extension ContentView {
                         alignment: .leading
                     )
                 
-                if isRunning {
-                    Text("\(turn)'s\(Text(" turn.").font(.body))")
+                if game.isRunning {
+                    Text("\(game.turn)'s\(Text(" turn.").font(.body))")
                         .font(.largeTitle.bold())
                         .frame(maxWidth: .infinity)
                 } else {
@@ -32,7 +34,7 @@ extension ContentView {
                         .frame(maxWidth: .infinity)
                 }
                 
-                Text("\(Text("AI ").font(.body))\(aiScore) : \(playerScore)\(Text(" Player").font(.body))")
+                Text("\(Text("AI ").font(.body))\(game.aiScore) : \(game.playerScore)\(Text(" Player").font(.body))")
                     .font(.largeTitle.bold())
                     .foregroundStyle(
                         Color.accentColor
@@ -46,36 +48,37 @@ extension ContentView {
             .padding(.horizontal, 30)
             
             HStack(spacing: 20) {
-                if isRunning {
-                    if active == .player {
+                if game.isRunning {
+                    if game.active == .player {
                         Button("1") {
-                            player(amount: 1)
+                            game.player(amount: 1)
                         }
                         
                         Button("2") {
-                            player(amount: 2)
+                            game.player(amount: 2)
                         }
                         
+                        
                         Button("3") {
-                            player(amount: 3)
+                            game.player(amount: 3)
                         }
                     } else {
                         Button("Run") {
-                            ai()
+                            game.ai()
                         }
                     }
                 } else {
                     Button("", systemImage: "arrow.circlepath") {
-                        reset()
+                        game.reset()
                     }
                     .labelStyle(.iconOnly)
                 }
             }
             .animation(
-                .bouncy, value: isRunning
+                .bouncy, value: game.isRunning
             )
             .animation(
-                .bouncy, value: active
+                .bouncy, value: game.active
             )
             .transition(.blurReplace)
             .buttonStyle(
@@ -84,12 +87,12 @@ extension ContentView {
             .padding(30)
             
             HStack {
-                ForEach(0 ..< 10) { index in
+                ForEach(0..<10, id: \.self) { index in
                     PenView(
-                        pen: $pens[index],
-                        action: actions[index],
-                        active: active,
-                        isRunning: isRunning
+                        pen: $game.pens[index],
+                        action: game.actions[index],
+                        active: game.active,
+                        isRunning: game.isRunning
                     )
                 }
             }

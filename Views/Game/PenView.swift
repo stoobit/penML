@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 17.0, *)
+
 struct PenView: View {
     @Binding var pen: PenModel
     
@@ -38,7 +38,7 @@ struct PenView: View {
                 pen.inGame ? pen.color : .secondary
             )
             .overlay {
-                if active == .ai && isRunning && pen.color != .brown {
+                if displayText {
                     VStack {
                         ForEach(action.available, id: \.self) { int in
                             Text(String(int))
@@ -50,6 +50,7 @@ struct PenView: View {
                         }
                     }
                     .padding(.vertical, 100)
+                    .transition(.identity)
                 }
             }
         }
@@ -57,5 +58,9 @@ struct PenView: View {
         .frame(maxWidth: .infinity)
         .offset(y: pen.inGame ? 0 : 400)
         .animation(.bouncy, value: pen.inGame)
+    }
+    
+    var displayText: Bool {
+        return active == .ai && isRunning && pen.color != .brown && pen.inGame
     }
 }
