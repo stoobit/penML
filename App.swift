@@ -3,8 +3,19 @@ import SwiftUI
 @main
 struct MyApp: App {
     var body: some Scene {
+        // The app is intended for use in fullscreen mode only.
+        
         WindowGroup {
-            GameView()
+            GeometryReader { geometry in
+                let width = geometry.size.width
+                let height = geometry.size.height
+                
+                if width < height {
+                    UnavailabelView()
+                } else {
+                    ContentView()
+                }
+            }
         }
     }
 }

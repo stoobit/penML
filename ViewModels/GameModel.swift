@@ -97,12 +97,18 @@ import Foundation
             learn()
         }
         
-        if actions[index].available.isEmpty {
+        if actions.indices.contains(index) {
+            if actions[index].available.isEmpty {
+                iterations += 1
+                playerScore += 1
+                isRunning = false
+                
+                learn()
+            }
+        } else {
             iterations += 1
-            playerScore += 1
+            aiScore += 1
             isRunning = false
-            
-            learn()
         }
     }
     

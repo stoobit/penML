@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var selection: Int = 0
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        TabView
+        
+        GameView()
     }
 }
 
