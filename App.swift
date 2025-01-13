@@ -3,7 +3,7 @@ import SwiftUI
 @main
 struct MyApp: App {
     var body: some Scene {
-        // The app is intended for use in fullscreen mode only.
+        // MARK: The app is intended for use in fullscreen mode only.
         
         WindowGroup {
             GeometryReader { geometry in
